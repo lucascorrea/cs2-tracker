@@ -44,7 +44,7 @@ Inspired by [ha-teamtracker](https://github.com/vasqued2/ha-teamtracker) (ESPN).
 Fill in the following fields:
 
 - **Friendly Name**: Display name (e.g. `FURIA CS2`)
-- **Team ID (for API URL)**: Team identifier (e.g. `FURIA`, `Team_Spirit`, `Natus_Vincere`)
+- **Team ID (for API URL)**: Team identifier - must match exactly as it appears in the Liquipedia URL (e.g. `FURIA` from `https://liquipedia.net/counterstrike/FURIA`, `Team_Spirit` from `https://liquipedia.net/counterstrike/Team_Spirit`)
 - **API Endpoint**: Choose between:
   - **Default**: Uses `https://cs2-upcoming-matches.vercel.app/api/{TEAM}?timezone={TIMEZONE}`
   - **Custom**: Provide your own API URL
@@ -116,16 +116,29 @@ The default CS2 Upcoming Matches API returns data in this format:
 }
 ```
 
-## Supported Teams
+## Finding the Correct Team ID
 
-The default API supports teams from Liquipedia. Use the exact team page name from Liquipedia as the Team ID:
+The default API supports teams from [Liquipedia Counter-Strike](https://liquipedia.net/counterstrike/). To find the correct Team ID:
 
-- `FURIA`
-- `Team_Spirit`
-- `Natus_Vincere`
-- `G2_Esports`
-- `FaZe_Clan`
-- And many more...
+1. **Go to Liquipedia**: Visit `https://liquipedia.net/counterstrike/`
+2. **Search for your team**: Use the search box or browse teams
+3. **Copy the exact URL name**: The Team ID is the exact name that appears in the URL
+
+### Examples:
+
+| Team Name | Liquipedia URL | Team ID |
+|-----------|----------------|---------|
+| FURIA | `https://liquipedia.net/counterstrike/FURIA` | `FURIA` |
+| Team Spirit | `https://liquipedia.net/counterstrike/Team_Spirit` | `Team_Spirit` |
+| Natus Vincere | `https://liquipedia.net/counterstrike/Natus_Vincere` | `Natus_Vincere` |
+| G2 Esports | `https://liquipedia.net/counterstrike/G2_Esports` | `G2_Esports` |
+| FaZe Clan | `https://liquipedia.net/counterstrike/FaZe_Clan` | `FaZe_Clan` |
+
+**Important**: The Team ID must match **exactly** as it appears in the Liquipedia URL, including underscores and capitalization.
+
+### For Custom APIs
+
+If you're using a custom API endpoint, the Team ID should match whatever identifier your API expects.
 
 ## Dashboard Card
 
@@ -152,9 +165,10 @@ The interface will automatically use your Home Assistant language setting.
 
 ### No matches found
 
-- Verify the Team ID matches the exact Liquipedia page name
-- Check if the team has upcoming matches on Liquipedia
-- Ensure your internet connection is working
+- **Double-check Team ID**: Visit `https://liquipedia.net/counterstrike/YOUR_TEAM_NAME` and verify the URL matches exactly
+- **Check team page**: Ensure the team has upcoming matches listed on their Liquipedia page
+- **Verify spelling**: Team IDs are case-sensitive and must include underscores (e.g. `Team_Spirit`, not `Team Spirit`)
+- **Internet connection**: Ensure your Home Assistant can reach the API endpoint
 
 ### API errors
 
