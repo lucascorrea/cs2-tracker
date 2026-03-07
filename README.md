@@ -18,6 +18,8 @@ Inspired by [ha-teamtracker](https://github.com/vasqued2/ha-teamtracker) (ESPN).
 - Home Assistant 2024.1 or newer
 - Internet connection for API access
 
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/lucasc0rrea)
+
 ## Installation
 
 ### HACS (recommended)
