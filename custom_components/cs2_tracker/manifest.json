@@ -1,0 +1,12 @@
+{
+  "domain": "cs2_tracker",
+  "name": "CS2 Tracker",
+  "codeowners": ["@lucascorrea"],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/lucascorrea/cs2-tracker",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/lucascorrea/cs2-tracker/issues",
+  "requirements": ["aiohttp>=3.8.0"],
+  "version": "0.1.0"
+}

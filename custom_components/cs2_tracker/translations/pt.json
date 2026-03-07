@@ -1,0 +1,78 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Nova Equipe CS2",
+        "description": "Use a API padrão (ID do time + fuso) ou informe uma URL de API personalizada. Depois configure os caminhos JSON para o card.",
+        "data": {
+          "name": "Nome amigável",
+          "team_id": "ID do time (para URL da API)",
+          "timezone": "Fuso horário",
+          "use_custom_url": "Usar URL de API personalizada",
+          "api_url": "URL da API personalizada",
+          "update_interval_minutes": "Intervalo de atualização (minutos)"
+        },
+        "data_description": {
+          "name": "ex: FURIA CS2",
+          "team_id": "ex: FURIA ou PaiN_Gaming (usado no caminho da API padrão)",
+          "timezone": "Seu fuso para as datas dos jogos",
+          "use_custom_url": "Desligado = API padrão; Ligado = usar URL abaixo",
+          "api_url": "URL completa ao usar API personalizada",
+          "update_interval_minutes": "De quantos em quantos minutos atualizar (ex: 5)"
+        }
+      },
+      "paths": {
+        "title": "Caminhos JSON",
+        "description": "Indique onde está cada campo na resposta da API. Use notação com pontos (ex: matches.0.opponent).",
+        "data": {
+          "json_path_team_logo": "Logo do time",
+          "json_path_opp_logo": "Logo do adversário",
+          "json_path_team_name": "Nome do time",
+          "json_path_opp_name": "Nome do adversário",
+          "json_path_score": "Placar (time)",
+          "json_path_opp_score": "Placar (adversário)",
+          "json_path_date": "Data/hora",
+          "json_path_venue": "Local / arena",
+          "json_path_status": "Status (live / upcoming)"
+        }
+      }
+    },
+    "error": {
+      "base": "Erro na configuração",
+      "invalid_url": "URL da API inválida",
+      "invalid_team_id": "Informe o ID do time usado na URL da API (ex: FURIA, PaiN_Gaming).",
+      "cannot_connect": "Não foi possível conectar à API. Verifique a URL e a rede."
+    },
+    "abort": {
+      "already_configured": "Esta equipe já está configurada."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Opções do CS2 Tracker",
+        "data": {
+          "use_custom_url": "Usar URL de API personalizada",
+          "team_id": "ID do time (para URL da API)",
+          "timezone": "Fuso horário",
+          "api_url": "URL da API personalizada",
+          "update_interval_minutes": "Intervalo de atualização (minutos)"
+        }
+      },
+      "paths": {
+        "title": "Caminhos JSON",
+        "data": {
+          "json_path_team_logo": "Logo do time",
+          "json_path_opp_logo": "Logo do adversário",
+          "json_path_team_name": "Nome do time",
+          "json_path_opp_name": "Nome do adversário",
+          "json_path_score": "Placar (time)",
+          "json_path_opp_score": "Placar (adversário)",
+          "json_path_date": "Data/hora",
+          "json_path_venue": "Local / arena",
+          "json_path_status": "Status (live / upcoming)"
+        }
+      }
+    }
+  }
+}
