@@ -20,6 +20,12 @@ Inspired by [ha-teamtracker](https://github.com/vasqued2/ha-teamtracker) (ESPN).
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/lucasc0rrea)
 
+## Settings
+
+<img width="582" height="709" alt="cs2-tracker-team" src="https://github.com/user-attachments/assets/e8ccc3a7-5ee9-4795-9a38-c0ce5d65aed2" />
+<img width="577" height="930" alt="cs2-tracker-json" src="https://github.com/user-attachments/assets/c1d0fcdd-a621-4af3-8dd6-6de35f2a3d1f" />
+
+
 ## Installation
 
 ### HACS (recommended)
