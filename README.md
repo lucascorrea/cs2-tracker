@@ -22,7 +22,7 @@ Inspired by [ha-teamtracker](https://github.com/vasqued2/ha-teamtracker) (ESPN).
 
 ## Settings
 
-<img width="577" height="711" alt="cs2-tracker-team" src="https://github.com/user-attachments/assets/1b6b21c3-df0e-4dce-a4eb-643e9a07ad63" />
+<img width="664" height="810" alt="cs2-tracker-team" src="https://github.com/user-attachments/assets/bfa4b4e0-0ea4-490b-a34a-cc22f5781778" />
 
 <img width="582" height="933" alt="cs2-tracker-json" src="https://github.com/user-attachments/assets/2e731d9f-9344-4256-ad83-b1a1c60779a1" />
 
