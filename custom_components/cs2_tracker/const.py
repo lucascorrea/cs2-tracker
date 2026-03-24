@@ -25,6 +25,8 @@ CONF_JSON_PATH_OPP_SCORE = "json_path_opp_score"
 CONF_JSON_PATH_DATE = "json_path_date"
 CONF_JSON_PATH_VENUE = "json_path_venue"
 CONF_JSON_PATH_STATUS = "json_path_status"  # e.g. "live" -> STATE_IN
+CONF_JSON_PATH_TEAM1_WIN = "json_path_team1_win"
+CONF_JSON_PATH_TEAM2_WIN = "json_path_team2_win"
 CONF_UPDATE_INTERVAL_MINUTES = "update_interval_minutes"
 
 # Default API (cs2-upcoming-matches.vercel.app)
@@ -33,6 +35,9 @@ DEFAULT_API_BASE = "https://cs2-upcoming-matches.vercel.app/api"
 # Defaults
 DEFAULT_NAME = "CS2 Tracker"
 DEFAULT_UPDATE_INTERVAL_MINUTES = 5
+# Poll every N seconds while state is IN (live); otherwise use update_interval_minutes from config.
+# Evita valores muito baixos (<10s) para não sobrecarregar a API.
+LIVE_POLL_INTERVAL_SECONDS = 15
 DEFAULT_TIMEOUT = 30
 DEFAULT_REFRESH_RATE = timedelta(minutes=5)
 
@@ -78,6 +83,9 @@ DEFAULT_PATH_OPP_SCORE = "matches.0.opponentScore"
 DEFAULT_PATH_DATE = "matches.0.date_iso"
 DEFAULT_PATH_VENUE = "matches.0.tournament"
 DEFAULT_PATH_STATUS = "matches.0.status"  # "live" -> IN, "upcoming" -> PRE
+# Maps won (BO3); empty path = skip. cslivestats getTeamUpcomingMatch uses root team1Win / team2Win.
+DEFAULT_PATH_TEAM1_WIN = "team1Win"
+DEFAULT_PATH_TEAM2_WIN = "team2Win"
 
 # Sensor states (aligned with common sports trackers)
 STATE_PRE = "PRE"

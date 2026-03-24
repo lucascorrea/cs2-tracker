@@ -23,6 +23,8 @@ from .const import (
     CONF_JSON_PATH_TEAM_NAME,
     CONF_JSON_PATH_VENUE,
     CONF_JSON_PATH_SCORE,
+    CONF_JSON_PATH_TEAM1_WIN,
+    CONF_JSON_PATH_TEAM2_WIN,
     CONF_TEAM_ID,
     CONF_TIMEZONE,
     CONF_UPDATE_INTERVAL_MINUTES,
@@ -38,6 +40,8 @@ from .const import (
     DEFAULT_PATH_TEAM_NAME,
     DEFAULT_PATH_VENUE,
     DEFAULT_PATH_SCORE,
+    DEFAULT_PATH_TEAM1_WIN,
+    DEFAULT_PATH_TEAM2_WIN,
     DEFAULT_UPDATE_INTERVAL_MINUTES,
     DOMAIN,
     TIMEZONE_OPTIONS,
@@ -123,6 +127,14 @@ def _schema_paths(user_input: dict[str, Any] | None) -> vol.Schema:
             vol.Optional(
                 CONF_JSON_PATH_STATUS,
                 default=_d(CONF_JSON_PATH_STATUS, DEFAULT_PATH_STATUS),
+            ): str,
+            vol.Optional(
+                CONF_JSON_PATH_TEAM1_WIN,
+                default=_d(CONF_JSON_PATH_TEAM1_WIN, DEFAULT_PATH_TEAM1_WIN),
+            ): str,
+            vol.Optional(
+                CONF_JSON_PATH_TEAM2_WIN,
+                default=_d(CONF_JSON_PATH_TEAM2_WIN, DEFAULT_PATH_TEAM2_WIN),
             ): str,
         }
     )
@@ -300,6 +312,14 @@ class CS2TrackerOptionsFlow(config_entries.OptionsFlow):
                 vol.Optional(
                     CONF_JSON_PATH_STATUS,
                     default=self._data.get(CONF_JSON_PATH_STATUS, DEFAULT_PATH_STATUS),
+                ): str,
+                vol.Optional(
+                    CONF_JSON_PATH_TEAM1_WIN,
+                    default=self._data.get(CONF_JSON_PATH_TEAM1_WIN, DEFAULT_PATH_TEAM1_WIN),
+                ): str,
+                vol.Optional(
+                    CONF_JSON_PATH_TEAM2_WIN,
+                    default=self._data.get(CONF_JSON_PATH_TEAM2_WIN, DEFAULT_PATH_TEAM2_WIN),
                 ): str,
             }
         )

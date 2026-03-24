@@ -79,7 +79,11 @@ class CS2TrackerSensor(CoordinatorEntity):
         attrs["opponent_score"] = d.get("opponent_score")
         attrs["date"] = d.get("date")
         attrs["venue"] = d.get("venue")
-        attrs["status"] = d.get("status")
+        st = d.get("status")
+        attrs["status"] = st
+        attrs["match_status"] = st
+        attrs["team1Win"] = d.get("team1Win")
+        attrs["team2Win"] = d.get("team2Win")
         attrs["last_update"] = d.get("last_update")
         attrs["api_url"] = d.get("api_url")
         attrs["api_message"] = d.get("api_message")

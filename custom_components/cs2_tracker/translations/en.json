@@ -33,7 +33,9 @@
           "json_path_opp_score": "Score (opponent)",
           "json_path_date": "Date/time",
           "json_path_venue": "Venue / location",
-          "json_path_status": "Status (live / upcoming)"
+          "json_path_status": "Status (live / upcoming)",
+          "json_path_team1_win": "Maps won (team 1 / focused)",
+          "json_path_team2_win": "Maps won (team 2 / opponent)"
         }
       }
     },
@@ -70,7 +72,9 @@
           "json_path_opp_score": "Score (opponent)",
           "json_path_date": "Date/time",
           "json_path_venue": "Venue / location",
-          "json_path_status": "Status (live / upcoming)"
+          "json_path_status": "Status (live / upcoming)",
+          "json_path_team1_win": "Maps won (team 1 / focused)",
+          "json_path_team2_win": "Maps won (team 2 / opponent)"
         }
       }
     }

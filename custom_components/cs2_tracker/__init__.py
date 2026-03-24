@@ -24,8 +24,11 @@ from .const import (
     CONF_JSON_PATH_TEAM_NAME,
     CONF_JSON_PATH_VENUE,
     CONF_JSON_PATH_SCORE,
+    CONF_JSON_PATH_TEAM1_WIN,
+    CONF_JSON_PATH_TEAM2_WIN,
     CONF_UPDATE_INTERVAL_MINUTES,
     COORDINATOR,
+    LIVE_POLL_INTERVAL_SECONDS,
     DEFAULT_PATH_DATE,
     DEFAULT_PATH_STATUS,
     DEFAULT_PATH_OPP_LOGO,
@@ -35,6 +38,8 @@ from .const import (
     DEFAULT_PATH_TEAM_NAME,
     DEFAULT_PATH_VENUE,
     DEFAULT_PATH_SCORE,
+    DEFAULT_PATH_TEAM1_WIN,
+    DEFAULT_PATH_TEAM2_WIN,
     DEFAULT_REFRESH_RATE,
     DEFAULT_TIMEOUT,
     DOMAIN,
@@ -143,6 +148,7 @@ class CS2TrackerCoordinator(DataUpdateCoordinator):
             self.config.update(entry.options)
         self.entry = entry
         self._session: aiohttp.ClientSession | None = None
+        self._standard_update_interval = update_interval
         super().__init__(
             hass,
             _LOGGER,
@@ -174,38 +180,47 @@ class CS2TrackerCoordinator(DataUpdateCoordinator):
             "date": _get_by_path(data, c.get(CONF_JSON_PATH_DATE) or DEFAULT_PATH_DATE),
             "venue": _get_by_path(data, c.get(CONF_JSON_PATH_VENUE) or DEFAULT_PATH_VENUE),
             "status": _get_by_path(data, c.get(CONF_JSON_PATH_STATUS) or DEFAULT_PATH_STATUS),
+            "team1Win": _get_by_path(data, c.get(CONF_JSON_PATH_TEAM1_WIN) or DEFAULT_PATH_TEAM1_WIN),
+            "team2Win": _get_by_path(data, c.get(CONF_JSON_PATH_TEAM2_WIN) or DEFAULT_PATH_TEAM2_WIN),
             "last_update": datetime.now(timezone.utc).isoformat(),
             "api_url": c.get(CONF_API_URL, ""),
             "api_message": None,
             "raw": data,
         }
-        # Check if matches array is empty
-        matches = data.get("matches", [])
-        if isinstance(matches, list) and len(matches) == 0:
-            out["state"] = STATE_NOT_FOUND
-            out["api_message"] = None  # Let frontend handle localization
+        use_custom_url = bool(c.get(CONF_USE_CUSTOM_URL))
+        if not use_custom_url:
+            # Default bundled API only: document shape includes matches[]; empty => no game.
+            matches = data.get("matches")
+            if matches is not None and isinstance(matches, list) and len(matches) == 0:
+                out["api_message"] = None
+                return out
+
+        # Custom URL: never inspect raw "matches"; state only from mapped fields below.
+        status_val = out.get("status")
+        status_str = str(status_val).lower().strip() if status_val is not None else ""
+        is_live = status_str in ("live", "in_progress", "playing")
+        is_finished = status_str in ("finished", "end", "over")
+        if is_live:
+            out["state"] = STATE_IN
+        elif is_finished:
+            out["state"] = STATE_POST
         else:
-            # Infer state: status "live" -> IN; status "finished" or scores -> POST; else PRE
-            status_val = out.get("status")
-            status_str = str(status_val).lower().strip() if status_val is not None else ""
-            is_live = status_str == "live"
-            is_finished = status_str == "finished"
-            if is_live:
-                out["state"] = STATE_IN
-            elif is_finished:
-                out["state"] = STATE_POST
-            else:
-                team_s = out["team_score"]
-                opp_s = out["opponent_score"]
-                if team_s is not None and opp_s is not None:
-                    try:
-                        int(team_s), int(opp_s)
-                        out["state"] = STATE_POST
-                    except (TypeError, ValueError):
-                        out["state"] = STATE_PRE
-                elif out["team_name"] or out["opponent_name"] or out["date"]:
+            team_s = out["team_score"]
+            opp_s = out["opponent_score"]
+            if team_s is not None and opp_s is not None:
+                try:
+                    int(team_s), int(opp_s)
+                    out["state"] = STATE_POST
+                except (TypeError, ValueError):
                     out["state"] = STATE_PRE
+            elif out["team_name"] or out["opponent_name"] or out["date"]:
+                out["state"] = STATE_PRE
         return out
+
+    def _sync_poll_interval(self, match_state: str | None) -> None:
+        """Faster polling during live matches; user interval for PRE/POST/NOT_FOUND."""
+        live_td = timedelta(seconds=LIVE_POLL_INTERVAL_SECONDS)
+        self.update_interval = live_td if match_state == STATE_IN else self._standard_update_interval
 
     async def _async_update_data(self) -> dict:
         url = self.config.get(CONF_API_URL)
@@ -221,4 +236,6 @@ class CS2TrackerCoordinator(DataUpdateCoordinator):
             raise UpdateFailed(f"Network error: {e}") from e
         except Exception as e:
             raise UpdateFailed(str(e)) from e
-        return self._apply_paths(data)
+        result = self._apply_paths(data)
+        self._sync_poll_interval(result.get("state"))
+        return result
